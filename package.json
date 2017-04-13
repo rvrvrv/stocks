@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.15.2",
+    "highcharts": "^5.0.10",
     "path": "^0.12.7",
     "serve-favicon": "^2.4.2",
     "socket.io": "^1.7.3"
