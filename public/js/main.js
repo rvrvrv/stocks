@@ -1,9 +1,31 @@
 /*jshint browser: true, esversion: 6*/
-/* global io */
+/* global $, io */
+$(document).ready(() => {
+	var socket = io();
 
-var socket = io();
-let user;
 
+	// Generate the chart
+	$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
+		// Create the chart
+		Highcharts.stockChart('chart', {
+			rangeSelector: {
+				selected: 1
+			},
+			series: [{
+				name: 'AAPL',
+				data: data,
+				tooltip: {
+					valueDecimals: 2
+				}
+        }]
+		});
+	});
+
+});
+
+
+
+/*
 //Attempt to set username
 function setUsername() {
 	socket.emit('setUsername', document.getElementById('name').value);
@@ -33,6 +55,8 @@ socket.on('newMsg', data => {
 	if (user) document.getElementById('message-container').innerHTML += 
 		`<div><b>${data.user}</b>: ${data.message}</div>`;
 });
+*/
+
 /*
 var socket = io();
 socket.on('connectToRoom', data => {
