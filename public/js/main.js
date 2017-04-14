@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, io */
+/* global $, Highcharts, io */
 
 $(document).ready(() => {
 	var socket = io();
@@ -18,22 +18,61 @@ $(document).ready(() => {
 
 		Highcharts.stockChart('chart', {
 
-			rangeSelector: {
-				selected: 4
+			//Begin theme
+			"colors": ["#F92672", "#66D9EF", "#A6E22E", "#A6E22E"],
+			"chart": {
+				"backgroundColor": "#272822",
+				"style": {
+					"color": "#A2A39C"
+				}
 			},
-
-			yAxis: {
+			"subtitle": {
+				"style": {
+					"color": "#A2A39C"
+				},
+				"align": "left"
+			},
+			"legend": {
+				"align": "right",
+				"verticalAlign": "bottom",
+				"itemStyle": {
+					"fontWeight": "normal",
+					"color": "#A2A39C"
+				}
+			},
+			"xAxis": {
+				"gridLineDashStyle": "Dot",
+				"gridLineWidth": 1,
+				"gridLineColor": "#A2A39C",
+				"lineColor": "#A2A39C",
+				"minorGridLineColor": "#A2A39C",
+				"tickColor": "#A2A39C",
+				"tickWidth": 1
+			},
+			"yAxis": {
+				"gridLineDashStyle": "Dot",
+				"gridLineColor": "#A2A39C",
+				"lineColor": "#A2A39C",
+				"minorGridLineColor": "#A2A39C",
+				"tickColor": "#A2A39C",
+				"tickWidth": 1,
 				labels: {
 					formatter: function () {
 						return (this.value > 0 ? ' + ' : '') + this.value + '%';
 					}
 				},
-				plotLines: [{
-					value: 0,
-					width: 2,
-					color: 'silver'
-            }]
 			},
+			//End theme
+
+			rangeSelector: {
+				selected: 4
+			},
+
+			plotLines: [{
+				value: 0,
+				width: 2,
+				color: 'silver'
+            }],
 
 			plotOptions: {
 				series: {
@@ -45,14 +84,15 @@ $(document).ready(() => {
 			tooltip: {
 				pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
 				valueDecimals: 2,
-				split: true
+				split: true,
+				xDateFormat: '%a, %B %e'
 			},
 
 			series: seriesOptions
 		});
 	}
 
-	$.each(stocks, function (i, stock) {
+	$.each(stocks, (i, stock) => {
 
 		$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
 
@@ -61,13 +101,9 @@ $(document).ready(() => {
 				data: data
 			};
 
-			// As we're loading the data asynchronously, we don't know what order it will arrive. So
-			// we keep a counter and create the chart when all the data is loaded.
+			// Counter keeps track of when all async data has loaded
 			seriesCounter += 1;
-
-			if (seriesCounter === stocks.length) {
-				createChart();
-			}
+			if (seriesCounter === stocks.length) createChart();
 		});
 	});
 

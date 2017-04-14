@@ -28,9 +28,8 @@ app.get('/test/:stock', (req, res) => {
 		let data = [];
 		//Format quotes and add to data array
 		for (let i = 0; i < quotes.length; i++) {
-			data.push([moment(quotes[i].date).format('MMMM Do, YYYY'), quotes[i].close]);
-		} //substr10
-		console.log();
+			data.push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
+		}
 		res.json(data);
 	});
 });

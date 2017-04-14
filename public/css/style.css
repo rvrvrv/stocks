@@ -1,4 +1,9 @@
+body {
+	background: #aaa;
+}
+
 #chart {
-	height: 400px;
-	min-width: 400px;
+	height: 60vh;
+	width: 98vw;
+	margin: 0 auto;
 }
