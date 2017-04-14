@@ -1,28 +1,77 @@
 /*jshint browser: true, esversion: 6*/
 /* global $, io */
+
 $(document).ready(() => {
 	var socket = io();
 
 
 	// Generate the chart
-	$.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=aapl-c.json&callback=?', function (data) {
-		// Create the chart
+	var seriesOptions = [],
+		seriesCounter = 0,
+		stocks = ['MSFT', 'AAPL', 'GOOG'];
+
+	/**
+	 * Create the chart when all data is loaded
+	 * @returns {undefined}
+	 */
+	function createChart() {
+
 		Highcharts.stockChart('chart', {
+
 			rangeSelector: {
-				selected: 1
+				selected: 4
 			},
-			series: [{
-				name: 'AAPL',
-				data: data,
-				tooltip: {
-					valueDecimals: 2
+
+			yAxis: {
+				labels: {
+					formatter: function () {
+						return (this.value > 0 ? ' + ' : '') + this.value + '%';
+					}
+				},
+				plotLines: [{
+					value: 0,
+					width: 2,
+					color: 'silver'
+            }]
+			},
+
+			plotOptions: {
+				series: {
+					compare: 'percent',
+					showInNavigator: true
 				}
-        }]
+			},
+
+			tooltip: {
+				pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
+				valueDecimals: 2,
+				split: true
+			},
+
+			series: seriesOptions
+		});
+	}
+
+	$.each(stocks, function (i, stock) {
+
+		$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
+
+			seriesOptions[i] = {
+				name: stock,
+				data: data
+			};
+
+			// As we're loading the data asynchronously, we don't know what order it will arrive. So
+			// we keep a counter and create the chart when all the data is loaded.
+			seriesCounter += 1;
+
+			if (seriesCounter === stocks.length) {
+				createChart();
+			}
 		});
 	});
 
 });
-
 
 
 /*
