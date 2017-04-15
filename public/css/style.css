@@ -1,9 +1,14 @@
 body {
 	background: #aaa;
+	text-align: center;
 }
 
 #chart {
 	height: 60vh;
 	width: 98vw;
 	margin: 0 auto;
+}
+
+.btn {
+	background: #323232 !important;
 }

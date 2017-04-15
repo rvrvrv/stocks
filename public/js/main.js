@@ -19,43 +19,43 @@ $(document).ready(() => {
 		Highcharts.stockChart('chart', {
 
 			//Begin theme
-			"colors": ["#F92672", "#66D9EF", "#A6E22E", "#A6E22E"],
-			"chart": {
-				"backgroundColor": "#272822",
-				"style": {
-					"color": "#A2A39C"
+			colors: ["#F92672", "#66D9EF", "#A6E22E", "#A6E22E"],
+			chart: {
+				backgroundColor: "#212121",
+				style: {
+					color: "#A2A39C"
 				}
 			},
-			"subtitle": {
-				"style": {
-					"color": "#A2A39C"
+			subtitle: {
+				style: {
+					color: "#A2A39C"
 				},
-				"align": "left"
+				align: "left"
 			},
-			"legend": {
-				"align": "right",
-				"verticalAlign": "bottom",
-				"itemStyle": {
-					"fontWeight": "normal",
-					"color": "#A2A39C"
+			legend: {
+				align: "right",
+				verticalAlign: "bottom",
+				itemStyle: {
+					fontWeight: "normal",
+					color: "#A2A39C"
 				}
 			},
-			"xAxis": {
-				"gridLineDashStyle": "Dot",
-				"gridLineWidth": 1,
-				"gridLineColor": "#A2A39C",
-				"lineColor": "#A2A39C",
-				"minorGridLineColor": "#A2A39C",
-				"tickColor": "#A2A39C",
-				"tickWidth": 1
+			xAxis: {
+				gridLineDashStyle: "Dot",
+				gridLineWidth: 1,
+				gridLineColor: "#A2A39C",
+				lineColor: "#A2A39C",
+				minorGridLineColor: "#A2A39C",
+				tickColor: "#A2A39C",
+				tickWidth: 1
 			},
-			"yAxis": {
-				"gridLineDashStyle": "Dot",
-				"gridLineColor": "#A2A39C",
-				"lineColor": "#A2A39C",
-				"minorGridLineColor": "#A2A39C",
-				"tickColor": "#A2A39C",
-				"tickWidth": 1,
+			yAxis: {
+				gridLineDashStyle: "Dot",
+				gridLineColor: "#A2A39C",
+				lineColor: "#A2A39C",
+				minorGridLineColor: "#A2A39C",
+				tickColor: "#A2A39C",
+				tickWidth: 1,
 				labels: {
 					formatter: function () {
 						return (this.value > 0 ? ' + ' : '') + this.value + '%';
@@ -82,6 +82,7 @@ $(document).ready(() => {
 			},
 
 			tooltip: {
+				backgroundColor: '(255,255,255, 0.9)',
 				pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
 				valueDecimals: 2,
 				split: true,
