@@ -9,7 +9,7 @@
 </head>
 
 <body>
-	<h3>Chart the Stock Market</h3>
+	<h4>Chart the Stock Market</h4>
 	<div id="chart"></div>
 	<div class="stock-container">
 		<div class="row">
@@ -18,11 +18,11 @@
 					<div class="card-content white-text">
 						<span class="card-title b">AAPL</span>
 						<a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-delay="100" data-tooltip="Learn about AAPL" href="https://www.google.com/finance?q=AAPL" target="_blank"><i class="large material-icons">info</i></a>
-						<a class="btn-floating waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove AAPL"><i class="large material-icons">delete</i></a>
+						<a class="btn-floating modal-trigger waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove AAPL" href="#delAAPL"><i class="large material-icons">delete</i></a>
 					</div>
 				</div>
 			</div>
-						<div class="col s6 m4" id="GOOG">
+			<div class="col s6 m4" id="GOOG">
 				<div class="card grey darken-4 z-depth-3">
 					<div class="card-content white-text">
 						<span class="card-title b">GOOG</span>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 			</div>
-						<div class="col s6 m4" id="MSFT">
+			<div class="col s6 m4" id="MSFT">
 				<div class="card grey darken-4 z-depth-3">
 					<div class="card-content white-text">
 						<span class="card-title b">MSFT</span>
@@ -40,9 +40,23 @@
 					</div>
 				</div>
 			</div>
-			
 		</div>
 	</div>
+
+	<!--Deletion confirmation modals-->
+	<!-- Modal Trigger -->
+
+	<div id="delAAPL" class="modal">
+		<div class="modal-content">
+			<h4>Delete AAPL</h4>
+			<p>Are you sure you want to remove AAPL?</p>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+			<a class="modal-action modal-close waves-effect waves-red btn-flat del-btn" data-stock="AAPL">Yes</a>
+		</div>
+	</div>
+
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>

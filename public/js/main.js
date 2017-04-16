@@ -2,7 +2,9 @@
 /* global $, Highcharts, io */
 
 $(document).ready(() => {
+	//Initialize socket.io and materialize.css modals
 	var socket = io();
+  	$('.modal').modal();
 
 
 	// Generate the chart
@@ -108,6 +110,19 @@ $(document).ready(() => {
 		});
 	});
 
+	//Remove stock from the list and chart
+	function removeStock(stock) {
+		//Remove stock & its modal 
+		$(`#${stock}`).remove();
+		setTimeout(() => {$(`#del${stock}`).remove()}, 0);
+		//TO DO: Update the chart
+		
+	}
+	
+	//Handle 'delete stock' confirmation
+	$('.del-btn').click(function() {
+		removeStock($(this).attr('data-stock'));
+	});
 });
 
 
