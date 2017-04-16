@@ -27,7 +27,7 @@
 					<div class="card-content white-text">
 						<span class="card-title b">GOOG</span>
 						<a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-delay="100" data-tooltip="Learn about GOOG" href="https://www.google.com/finance?q=GOOG" target="_blank"><i class="large material-icons">info</i></a>
-						<a class="btn-floating waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove GOOG"><i class="large material-icons">delete</i></a>
+						<a class="btn-floating modal-trigger waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove GOOG" href="#delGOOG"><i class="large material-icons">delete</i></a>
 					</div>
 				</div>
 			</div>
@@ -36,7 +36,7 @@
 					<div class="card-content white-text">
 						<span class="card-title b">MSFT</span>
 						<a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-delay="100" data-tooltip="Learn about MSFT" href="https://www.google.com/finance?q=MSFT" target="_blank"><i class="large material-icons">info</i></a>
-						<a class="btn-floating waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove MSFT"><i class="large material-icons">delete</i></a>
+						<a class="btn-floating modal-trigger waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove MSFT" href="#delMSFT"><i class="large material-icons">delete</i></a>
 					</div>
 				</div>
 			</div>
@@ -44,8 +44,6 @@
 	</div>
 
 	<!--Deletion confirmation modals-->
-	<!-- Modal Trigger -->
-
 	<div id="delAAPL" class="modal">
 		<div class="modal-content">
 			<h4>Delete AAPL</h4>
@@ -56,7 +54,26 @@
 			<a class="modal-action modal-close waves-effect waves-red btn-flat del-btn" data-stock="AAPL">Yes</a>
 		</div>
 	</div>
-
+	<div id="delGOOG" class="modal">
+		<div class="modal-content">
+			<h4>Delete GOOG</h4>
+			<p>Are you sure you want to remove GOOG?</p>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+			<a class="modal-action modal-close waves-effect waves-red btn-flat del-btn" data-stock="GOOG">Yes</a>
+		</div>
+	</div>
+		<div id="delMSFT" class="modal">
+		<div class="modal-content">
+			<h4>Delete MSFT</h4>
+			<p>Are you sure you want to remove MSFT?</p>
+		</div>
+		<div class="modal-footer">
+			<a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+			<a class="modal-action modal-close waves-effect waves-red btn-flat del-btn" data-stock="MSFT">Yes</a>
+		</div>
+	</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
