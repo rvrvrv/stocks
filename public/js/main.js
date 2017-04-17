@@ -114,7 +114,7 @@ $(document).ready(() => {
 	function removeStock(stock) {
 		//Remove stock & its modal 
 		$(`#${stock}`).remove();
-		setTimeout(() => {$(`#del${stock}`).remove()}, 0);
+		setTimeout(() => $(`#del${stock}`).remove(), 0);
 		//TO DO: Update the chart
 		
 	}
@@ -122,6 +122,7 @@ $(document).ready(() => {
 	//Handle 'delete stock' confirmation
 	$('.del-btn').click(function() {
 		removeStock($(this).attr('data-stock'));
+		socket.emit('deleteStock', $(this).attr('data-stock'));
 	});
 });
 

@@ -18,6 +18,27 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
+let stocks = ['AAPL', 'GOOG', 'MSFT'];
+
+//Sockets.io 
+io.on('connection', socket => {
+	console.log('A user connected');
+	
+	
+	//Delete stock
+	socket.on('deleteStock', stock => {
+		//Find stock to be deleted in list
+		let stockIndex = stocks.findIndex(e => e === stock);
+		console.log(stockIndex);
+		//Remove stock from the list
+		stocks.splice(stockIndex, 1);
+		//Update all users with new list of stocks
+		io.sockets.emit('updateStocks', {stocks});
+		console.log(stocks);
+	});
+});
+	
+
 app.get('/test/:stock', (req, res) => {
 	yahooFinance.historical({
 		symbol: req.params.stock,
