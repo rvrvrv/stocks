@@ -24,6 +24,12 @@ let stocks = ['AAPL', 'GOOG', 'MSFT'];
 io.on('connection', socket => {
 	console.log('A user connected');
 	
+	//Send current stock list and data to user
+	socket.emit('newClientConnect', {
+		stocks: stocks,
+		data: 'stock data'
+	});
+
 	
 	//Delete stock
 	socket.on('deleteStock', stock => {
