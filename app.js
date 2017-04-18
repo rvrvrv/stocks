@@ -38,8 +38,9 @@ io.on('connection', socket => {
 		console.log(stockIndex);
 		//Remove stock from the list
 		stocks.splice(stockIndex, 1);
-		//Update all users with new list of stocks
-		io.sockets.emit('updateStocks', {stocks});
+		//Update all other users with deleted stock
+		socket.broadcast.emit('deleted', stock);
+		//io.sockets.emit('updateStocks', {stocks});
 		console.log(stocks);
 	});
 });

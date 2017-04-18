@@ -24,7 +24,6 @@ $(document).ready(() => {
 		$(`#${stock}`).remove();
 		setTimeout(() => $(`#del${stock}`).remove(), 0);
 		//TO DO: Update the chart
-
 	}
 
 	//Handle 'delete stock' confirmation
@@ -33,8 +32,11 @@ $(document).ready(() => {
 		socket.emit('deleteStock', $(this).attr('data-stock'));
 	});
 
+	//Handle when another user deletes a stock
+	socket.on('deleted', stock => removeStock(stock));
 
-	// On initial connection, load all stock data from server
+
+	//On initial connection, load all stock data from server
 	socket.on('newClientConnect', data => {
 		console.log(data);
 		stocks = data.stocks;
