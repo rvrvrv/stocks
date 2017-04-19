@@ -2,8 +2,7 @@
 /* global $, console, Highcharts, io */
 
 $(document).ready(() => {
-	//Initialize materialize modals and declare global vars
-	$('.modal').modal();
+	//Global vars
 	var socket = io();
 	var stocks = [];
 
@@ -13,10 +12,37 @@ $(document).ready(() => {
 	 * @returns {undefined}
 	 */
 	function createChart() {
-
 		Highcharts.stockChart('chart', chartConfig);
 	}
 
+	//Generate materialize card and modal for stocks
+	function generateHTML(stock) {
+		//HTML for modal
+		$('.modals').append(`
+			<div id="del${stock}" class="modal">
+				<div class="modal-content">
+					<h4>Delete ${stock}</h4>
+					<p>Are you sure you want to remove ${stock}?</p>
+				</div>
+				<div class="modal-footer">
+					<a class="modal-action modal-close waves-effect waves-green btn-flat">No</a>
+					<a class="modal-action modal-close waves-effect waves-red btn-flat del-btn" data-stock="${stock}">Yes</a>
+				</div>
+			</div>`);
+		$('.modal').modal();
+
+		//HTML for card
+		$('.stock-cards').append(`
+			<div class="col s6 m4" id="${stock}">
+				<div class="card grey darken-4 z-depth-3">
+					<div class="card-content white-text">
+						<span class="card-title b">${stock}</span>
+						<a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-delay="100" data-tooltip="Learn about ${stock}" href="https://www.google.com/finance?q=${stock}" target="_blank"><i class="large material-icons">info</i></a>
+						<a class="btn-floating modal-trigger waves-effect tooltipped red darken-4" data-position="bottom" data-delay="100" data-tooltip="Remove ${stock}" href="#del${stock}"><i class="large material-icons">delete</i></a>
+					</div>
+				</div>
+			</div>`);
+	}
 
 	//Remove stock from the list and chart
 	function removeStock(stock) {
@@ -36,12 +62,15 @@ $(document).ready(() => {
 	socket.on('deleted', stock => removeStock(stock));
 
 
-	//On initial connection, load all stock data from server
+	//On initial connection, load and format stock data from server
 	socket.on('newClientConnect', data => {
-		console.log(data);
 		stocks = data.stocks;
 		$.each(stocks, (i, stock) => {
+			//Generate HTML for each stock 
+			generateHTML(stock);
 
+
+			//Fetch stock quote data for chart
 			$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
 
 				seriesOptions[i] = {

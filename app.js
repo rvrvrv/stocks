@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
+//Initial stocks to load
 let stocks = ['AAPL', 'GOOG', 'MSFT'];
 
 //Sockets.io 
@@ -25,10 +26,7 @@ io.on('connection', socket => {
 	console.log('A user connected');
 	
 	//Send current stock list and data to user
-	socket.emit('newClientConnect', {
-		stocks: stocks,
-		data: 'stock data'
-	});
+	socket.emit('newClientConnect', { stocks: stocks });
 
 	
 	//Delete stock
