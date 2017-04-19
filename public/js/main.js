@@ -2,9 +2,9 @@
 /* global $, console, Highcharts, io */
 
 $(document).ready(() => {
-	//Global vars
+
 	var socket = io();
-	var stocks = [];
+
 
 
 	/**
@@ -64,25 +64,32 @@ $(document).ready(() => {
 
 	//On initial connection, load and format stock data from server
 	socket.on('newClientConnect', data => {
-		stocks = data.stocks;
-		$.each(stocks, (i, stock) => {
-			//Generate HTML for each stock 
+		//stocks = data.stocks;
+		console.log(data.stockData);
+		
+		for (let stock in data.stockData) {
+			console.log(stock);
 			generateHTML(stock);
+		}
 
-
-			//Fetch stock quote data for chart
-			$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
-
-				seriesOptions[i] = {
-					name: stock,
-					data: data
-				};
-
-				// Counter keeps track of when all async data has loaded
-				seriesCounter += 1;
-				if (seriesCounter === stocks.length) createChart();
-			});
-		});
+		//		$.each(stocks, (i, stock) => {
+//			//Generate HTML for each stock 
+//			generateHTML(stock);
+//
+//
+//			//Fetch stock quote data for chart
+//			$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
+//
+//				seriesOptions[i] = {
+//					name: stock,
+//					data: data
+//				};
+//
+//				// Counter keeps track of when all async data has loaded
+//				seriesCounter += 1;
+//				if (seriesCounter === stocks.length) createChart();
+//			});
+//		});
 	});
 });
 

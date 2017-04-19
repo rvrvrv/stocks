@@ -18,15 +18,33 @@ app.get('/', (req, res) => {
 	res.sendFile(__dirname + '/index.html');
 });
 
-//Initial stocks to load
+//Upon server startup, load a sample set of stocks
 let stocks = ['AAPL', 'GOOG', 'MSFT'];
+let stockData = {AAPL: [], GOOG: [], MSFT: []};
+	
+for (let stock in stockData) {
+	yahooFinance.historical({
+		symbol: stock,
+		from: '2017-01-01',
+		to: moment().format('YYYY-MM-DD'), //Today's date
+		period: 'd'
+	}).then(quotes => {
+		//Format quotes and add to stockData object
+		for (let i = 0; i < quotes.length; i++) {
+			stockData[stock].push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
+		}
+		console.log(stockData);
+	});
+}
+
+
 
 //Sockets.io 
 io.on('connection', socket => {
 	console.log('A user connected');
 	
-	//Send current stock list and data to user
-	socket.emit('newClientConnect', { stocks: stocks });
+	//Send full stock list and data to new user
+	socket.emit('newClientConnect', { stockData });
 
 	
 	//Delete stock
