@@ -35,8 +35,6 @@ for (let stock in stockData) {
 	});
 }
 
-
-
 //Sockets.io 
 io.on('connection', socket => {
 	
@@ -51,7 +49,6 @@ io.on('connection', socket => {
 		socket.broadcast.emit('deleted', stock);
 	});
 });
-	
 
 const port = process.env.PORT || 8080;
 http.listen(port, () => console.log(`Node.js listening on port ${port}...`));
