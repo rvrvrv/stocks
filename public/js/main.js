@@ -5,6 +5,7 @@ $(document).ready(() => {
 
 	var socket = io();
 	var stockData = {};
+	var chart;
 
 
 
@@ -13,7 +14,7 @@ $(document).ready(() => {
 	 * @returns {undefined}
 	 */
 	function createChart() {
-		Highcharts.stockChart('chart', chartConfig);
+		chart = Highcharts.stockChart('chart', chartConfig);
 	}
 
 	//Generate materialize card and modal for stocks
@@ -47,31 +48,42 @@ $(document).ready(() => {
 
 	//Remove stock from the list and chart
 	function removeStock(stock) {
-		//Remove stock & its modal 
+		//First, ensure stock exists on page
+		if ($(`#${stock}`).length === 0) return;
+		//Remove stock card, its modal, and chart data
 		$(`#${stock}`).remove();
-		setTimeout(() => $(`#del${stock}`).remove(), 0);
-		//TO DO: Update the chart
+		$(`#del${stock}`).remove();
+		chart.get(stock).remove();	
 	}
 
 	//Handle 'delete stock' confirmation
-	$('.del-btn').click(function () {
-		removeStock($(this).attr('data-stock'));
-		socket.emit('deleteStock', $(this).attr('data-stock'));
+	$('.modals').on('click', '.del-btn', function () {
+		let stock = $(this).attr('data-stock');
+		//Remove stock from client's page
+		removeStock(stock);
+		/* Remove stock from list on server,
+		which will also update all other clients */
+		socket.emit('deleteStock', stock);
 	});
 
+	/*******************************
+	BEGIN socket.io operations
+	*******************************/
+	
 	//Handle when another user deletes a stock
-	socket.on('deleted', stock => removeStock(stock));
-
+	socket.on('deleted', stock => {
+		removeStock(stock);
+	});
 
 	//On initial connection, load and format stock data from server
 	socket.on('newClientConnect', data => {
 		stockData = data.stockData;
-		console.log(stockData);
 		//Iterate through all stocks
 		let i = 0;
 		for (let stock in stockData) {
 			seriesOptions[i] = {
 				name: stock,
+				id: stock,
 				data: stockData[stock]
 			};
 			generateHTML(stock);
@@ -82,10 +94,12 @@ $(document).ready(() => {
 	});
 });
 
+	/*******************************
+	END socket.io operations
+	*******************************/
 
 //Chart config
 var seriesOptions = [],
-	seriesCounter = 0,
 	chartConfig = {
 
 		//Begin theme
