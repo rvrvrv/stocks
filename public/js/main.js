@@ -4,6 +4,7 @@
 $(document).ready(() => {
 
 	var socket = io();
+	var stockData = {};
 
 
 
@@ -64,32 +65,20 @@ $(document).ready(() => {
 
 	//On initial connection, load and format stock data from server
 	socket.on('newClientConnect', data => {
-		//stocks = data.stocks;
-		console.log(data.stockData);
-		
-		for (let stock in data.stockData) {
-			console.log(stock);
+		stockData = data.stockData;
+		console.log(stockData);
+		//Iterate through all stocks
+		let i = 0;
+		for (let stock in stockData) {
+			seriesOptions[i] = {
+				name: stock,
+				data: stockData[stock]
+			};
 			generateHTML(stock);
+			i++;
 		}
-
-		//		$.each(stocks, (i, stock) => {
-//			//Generate HTML for each stock 
-//			generateHTML(stock);
-//
-//
-//			//Fetch stock quote data for chart
-//			$.getJSON(`http://localhost:8080/test/${stock}`, (data) => {
-//
-//				seriesOptions[i] = {
-//					name: stock,
-//					data: data
-//				};
-//
-//				// Counter keeps track of when all async data has loaded
-//				seriesCounter += 1;
-//				if (seriesCounter === stocks.length) createChart();
-//			});
-//		});
+		//Draw the chart
+		createChart();
 	});
 });
 

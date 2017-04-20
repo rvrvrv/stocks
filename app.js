@@ -25,7 +25,7 @@ let stockData = {AAPL: [], GOOG: [], MSFT: []};
 for (let stock in stockData) {
 	yahooFinance.historical({
 		symbol: stock,
-		from: '2017-01-01',
+		from: '2000-01-01',
 		to: moment().format('YYYY-MM-DD'), //Today's date
 		period: 'd'
 	}).then(quotes => {
@@ -33,7 +33,6 @@ for (let stock in stockData) {
 		for (let i = 0; i < quotes.length; i++) {
 			stockData[stock].push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
 		}
-		console.log(stockData);
 	});
 }
 
@@ -46,18 +45,15 @@ io.on('connection', socket => {
 	//Send full stock list and data to new user
 	socket.emit('newClientConnect', { stockData });
 
-	
 	//Delete stock
 	socket.on('deleteStock', stock => {
 		//Find stock to be deleted in list
 		let stockIndex = stocks.findIndex(e => e === stock);
-		console.log(stockIndex);
 		//Remove stock from the list
 		stocks.splice(stockIndex, 1);
 		//Update all other users with deleted stock
 		socket.broadcast.emit('deleted', stock);
 		//io.sockets.emit('updateStocks', {stocks});
-		console.log(stocks);
 	});
 });
 	
