@@ -35,6 +35,8 @@ for (let stock in stockData) {
 	});
 }
 
+
+
 //Sockets.io 
 io.on('connection', socket => {
 	
@@ -46,7 +48,15 @@ io.on('connection', socket => {
 		//Delete stock and its data from master list
 		delete stockData[stock];
 		//Update all other users with deleted stock
-		socket.broadcast.emit('deleted', stock);
+		io.sockets.emit('deleted', stock);
+	});
+	
+	//Add stock
+	socket.on('addStock', stock => {
+		//Add stock and its data from master list
+		//delete stockData[stock];
+		//Update all users with added stock
+		io.sockets.emit('added', stock);
 	});
 });
 

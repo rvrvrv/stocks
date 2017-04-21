@@ -7,8 +7,6 @@ $(document).ready(() => {
 	var stockData = {};
 	var chart;
 
-
-
 	/**
 	 * Create the chart when all data is loaded
 	 * @returns {undefined}
@@ -53,7 +51,16 @@ $(document).ready(() => {
 		//Remove stock card, its modal, and chart data
 		$(`#${stock}`).remove();
 		$(`#del${stock}`).remove();
-		chart.get(stock).remove();	
+		chart.get(stock).remove();
+	}
+
+	//Add stock to the list and chart
+	function addStock(stock) {
+		//First, ensure stock doesn't already exist on page
+		if ($(`#${stock}`).length > 0) return;
+		//Add stock card, its modal, and chart data
+		generateHTML(stock);
+		//Add to chart
 	}
 
 	//Handle 'delete stock' confirmation
@@ -66,13 +73,29 @@ $(document).ready(() => {
 		socket.emit('deleteStock', stock);
 	});
 
+	//Handle submission from 'add a stock' field
+	$('#addStock').on('submit', e => {
+		e.preventDefault();
+		let stock = $('#stockInput').val().trim().toUpperCase();
+		//Ensure input contains letters only
+		if (/[^A-Z]/.test(stock))
+			return Materialize.toast('Please enter a valid ticker symbol', 3000, 'red darken-4');
+		//If the ticker symbol appears valid, try to add it to the list
+		socket.emit('addStock', stock);
+	});
+
 	/*******************************
 	BEGIN socket.io operations
 	*******************************/
-	
-	//Handle when another user deletes a stock
+
+	//Handle when a user deletes a stock
 	socket.on('deleted', stock => {
 		removeStock(stock);
+	});
+	
+	//Handle when a user adds a stock
+	socket.on('added', stock => {
+		addStock(stock);
 	});
 
 	//On initial connection, load and format stock data from server
@@ -94,9 +117,9 @@ $(document).ready(() => {
 	});
 });
 
-	/*******************************
-	END socket.io operations
-	*******************************/
+/*******************************
+END socket.io operations
+*******************************/
 
 //Chart config
 var seriesOptions = [],
