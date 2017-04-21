@@ -7,14 +7,22 @@ a {
 	margin: 0 10px;
 }
 
+.row {
+	margin-bottom: -20px !important;
+}
+
+.card .card-content {
+	padding: 10px !important;
+}
+
 #chart {
 	height: 60vh;
-	width: 98vw;
+	width: 97vw;
 	margin: 0 auto;
 }
 
 .add-stock {
-	margin-bottom: -10%;
+	margin-top: 10px;
 }
 
 #stockInput {
@@ -44,10 +52,6 @@ a {
 
 ::-ms-input-placeholder {
 	color: #030 !important;
-}
-
-.stock-container {
-	margin-top: -2%;
 }
 
 .card-content {
