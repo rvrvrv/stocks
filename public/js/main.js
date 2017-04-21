@@ -78,9 +78,12 @@ $(document).ready(() => {
 		e.preventDefault();
 		let stock = $('#stockInput').val().trim().toUpperCase();
 		//Ensure input contains letters only
-		if (/[^A-Z]/.test(stock))
+		if (/[^A-Z]/.test(stock) || !stock)
 			return Materialize.toast('Please enter a valid ticker symbol', 3000, 'red darken-4');
-		//If the ticker symbol appears valid, try to add it to the list
+		//Ensure stock isn't already on page
+		if ($(`#${stock}`).length > 0)
+			return Materialize.toast(`${stock} is already on the chart.<br> Please enter a new ticker symbol.`, 4000, 'red darken-4');
+		//If the ticker symbol is valid, try to add it to the list
 		socket.emit('addStock', stock);
 	});
 
