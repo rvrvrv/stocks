@@ -19,15 +19,22 @@ app.get('/', (req, res) => {
 });
 
 //Upon server startup, load a sample set of stocks
-let stockData = {AAPL: [], GOOG: [], MSFT: []};
-	
+let stockData = {	AAPL: [], GOOG: [], MSFT: [] };
+
 for (let stock in stockData) {
+	getStockData(stock);
+}
+
+//Retrieve stock data -- 
+function getStockData(stock) {
 	yahooFinance.historical({
 		symbol: stock,
 		from: '2000-01-01',
 		to: moment().format('YYYY-MM-DD'), //Today's date
 		period: 'd'
 	}).then(quotes => {
+		//First, ensure data exists
+		if (!quotes.length) return false;
 		//Format quotes and add to stockData object
 		for (let i = 0; i < quotes.length; i++) {
 			stockData[stock].push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
@@ -36,21 +43,27 @@ for (let stock in stockData) {
 }
 
 
+/*******************************
+BEGIN socket.io operations
+*******************************/
 
-//Sockets.io 
 io.on('connection', socket => {
-	
+
 	//Send full stock list and data to new user
-	socket.emit('newClientConnect', { stockData });
+	socket.emit('newClientConnect', {
+		stockData
+	});
 
 	//Delete stock
+	socket.emit('newClientConnect', { stockData });
 	socket.on('deleteStock', stock => {
 		//Delete stock and its data from master list
 		delete stockData[stock];
 		//Update all other users with deleted stock
 		io.sockets.emit('deleted', stock);
+		console.log(Object.keys(stockData));
 	});
-	
+
 	//Add stock
 	socket.on('addStock', stock => {
 		//Add stock and its data from master list
@@ -59,6 +72,10 @@ io.on('connection', socket => {
 		io.sockets.emit('added', stock);
 	});
 });
+
+/*******************************
+END socket.io operations
+*******************************/
 
 const port = process.env.PORT || 8080;
 http.listen(port, () => console.log(`Node.js listening on port ${port}...`));

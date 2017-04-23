@@ -51,7 +51,7 @@ $(document).ready(() => {
 		//Remove stock card, its modal, and chart data
 		$(`#${stock}`).remove();
 		$(`#del${stock}`).remove();
-		chart.get(stock).remove();
+		//chart.get(stock).remove();
 	}
 
 	//Add stock to the list and chart
@@ -95,7 +95,7 @@ $(document).ready(() => {
 	socket.on('deleted', stock => {
 		removeStock(stock);
 	});
-	
+
 	//Handle when a user adds a stock
 	socket.on('added', stock => {
 		addStock(stock);
@@ -118,11 +118,13 @@ $(document).ready(() => {
 		//Draw the chart
 		createChart();
 	});
+	
+	/*******************************
+	END socket.io operations
+	*******************************/
+	
 });
 
-/*******************************
-END socket.io operations
-*******************************/
 
 //Chart config
 var seriesOptions = [],
