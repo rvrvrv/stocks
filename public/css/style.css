@@ -11,6 +11,15 @@ a {
 	margin-bottom: -20px !important;
 }
 
+.progress {
+	width: 97vw !important;
+	margin: 5px auto !important;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
 .card .card-content {
 	padding: 10px !important;
 }
@@ -19,10 +28,6 @@ a {
 	height: 50vh;
 	width: 97vw;
 	margin: 0 auto;
-}
-
-.add-stock {
-	margin-top: 10px;
 }
 
 #stockInput {

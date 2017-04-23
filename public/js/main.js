@@ -58,14 +58,14 @@ $(document).ready(() => {
 	function addStock(stockObj) {
 		//First, ensure stock data is valid
 		if (!stockObj) return enableInput('No stock data found.');
-		
+
 		//Then, ensure stock isn't already on page
 		let stock = Object.keys(stockObj)[0];
 		if ($(`#${stock}`).length > 0) return;
-		
+
 		//Add stock card and modal
 		generateHTML(stock);
-		
+
 		//Add stock data to chart
 		chart.addSeries({
 			name: stock,
@@ -77,10 +77,13 @@ $(document).ready(() => {
 
 	//Enable the input field and optionally, display an error message
 	function enableInput(errorMsg) {
-		$('#addStock :input').prop('disabled', false);
 		if (errorMsg) Materialize.toast(errorMsg, 3500, 'red darken-4');
+		$('#addStock :input').prop('disabled', false);
+		chart.hideLoading();
+		$('.progress').addClass('hidden');
+		
 	}
-	
+
 	//Handle 'delete stock' confirmation
 	$('.modals').on('click', '.del-btn', function () {
 		let stock = $(this).attr('data-stock');
@@ -94,6 +97,8 @@ $(document).ready(() => {
 	//Handle submission from 'add a stock' field
 	$('#addStock').on('submit', e => {
 		e.preventDefault();
+		chart.showLoading();
+		$('.progress').removeClass('hidden');
 		$('#addStock :input').prop('disabled', true);
 		let stock = $('#stockInput').val().trim().toUpperCase();
 		//Ensure input contains letters only
@@ -107,8 +112,8 @@ $(document).ready(() => {
 	});
 
 
-	
-	
+
+
 	/*******************************
 	BEGIN socket.io operations
 	*******************************/
@@ -139,12 +144,13 @@ $(document).ready(() => {
 		}
 		//Draw the chart
 		createChart();
+		$('.progress').addClass('hidden');
 	});
-	
+
 	/*******************************
 	END socket.io operations
 	*******************************/
-	
+
 });
 
 
@@ -152,7 +158,6 @@ $(document).ready(() => {
 var seriesOptions = [],
 	chartConfig = {
 
-		//Begin theme
 		colors: ['#55b209', '#003aff', '#ff5319', '#ffc200',
 					'#b21409', '#a712b2', '#09b28d', '#6818cc',
 					'#b29900', '#49f6ff', '#009cff', '#cc2323'],
@@ -162,12 +167,7 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-		subtitle: {
-			style: {
-				color: '#A2A39C'
-			},
-			align: 'left'
-		},
+		
 		legend: {
 			align: 'right',
 			verticalAlign: 'bottom',
@@ -176,34 +176,7 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-		xAxis: {
-			gridLineDashStyle: 'Dot',
-			gridLineWidth: 1,
-			gridLineColor: '#A2A39C',
-			lineColor: '#A2A39C',
-			minorGridLineColor: '#A2A39C',
-			tickColor: '#A2A39C',
-			tickWidth: 1
-		},
-		yAxis: {
-			gridLineDashStyle: 'Dot',
-			gridLineColor: '#A2A39C',
-			lineColor: '#A2A39C',
-			minorGridLineColor: '#A2A39C',
-			tickColor: '#A2A39C',
-			tickWidth: 1,
-			labels: {
-				formatter: function () {
-					return (this.value > 0 ? ' + ' : '') + this.value + '%';
-				}
-			},
-		},
-		//End theme
-
-		rangeSelector: {
-			selected: 4
-		},
-
+		
 		plotLines: [{
 			value: 0,
 			width: 2,
@@ -217,12 +190,40 @@ var seriesOptions = [],
 			}
 		},
 
+		rangeSelector: {
+			selected: 4
+		},
+		
 		tooltip: {
 			backgroundColor: '(255,255,255, 0.9)',
 			pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
 			valueDecimals: 2,
 			split: true,
 			xDateFormat: '%a, %B %e'
+		},
+
+		xAxis: {
+			gridLineDashStyle: 'Dot',
+			gridLineWidth: 1,
+			gridLineColor: '#A2A39C',
+			lineColor: '#A2A39C',
+			minorGridLineColor: '#A2A39C',
+			tickColor: '#A2A39C',
+			tickWidth: 1
+		},
+
+		yAxis: {
+			gridLineDashStyle: 'Dot',
+			gridLineColor: '#A2A39C',
+			lineColor: '#A2A39C',
+			minorGridLineColor: '#A2A39C',
+			tickColor: '#A2A39C',
+			tickWidth: 1,
+			labels: {
+				formatter: function () {
+					return (this.value > 0 ? ' + ' : '') + this.value + '%';
+				}
+			},
 		},
 
 		series: seriesOptions
