@@ -16,7 +16,7 @@ a {
 }
 
 #chart {
-	height: 60vh;
+	height: 50vh;
 	width: 97vw;
 	margin: 0 auto;
 }
@@ -26,10 +26,12 @@ a {
 }
 
 #stockInput {
+	font-size: 1.7em;
 	text-transform: uppercase;
 }
 
 .input-field label {
+	font-size: 1.7em;
 	color: #000 !important;
 }
 
