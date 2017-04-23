@@ -63,6 +63,12 @@ $(document).ready(() => {
 		//Add to chart
 	}
 
+	//Enable the input field and optionally, display an error message
+	function enableInput(errorMsg) {
+		$('#addStock :input').prop('disabled', false);
+		if (errorMsg) Materialize.toast(errorMsg, 3500, 'red darken-4');
+	}
+	
 	//Handle 'delete stock' confirmation
 	$('.modals').on('click', '.del-btn', function () {
 		let stock = $(this).attr('data-stock');
@@ -76,17 +82,21 @@ $(document).ready(() => {
 	//Handle submission from 'add a stock' field
 	$('#addStock').on('submit', e => {
 		e.preventDefault();
+		$('#addStock :input').prop('disabled', true);
 		let stock = $('#stockInput').val().trim().toUpperCase();
 		//Ensure input contains letters only
 		if (/[^A-Z]/.test(stock) || !stock)
-			return Materialize.toast('Please enter a valid ticker symbol', 3000, 'red darken-4');
+			return enableInput('Please enter a valid ticker symbol');
 		//Ensure stock isn't already on page
 		if ($(`#${stock}`).length > 0)
-			return Materialize.toast(`${stock} is already on the chart.<br> Please enter a new ticker symbol.`, 4000, 'red darken-4');
+			return enableInput(`${stock} is already on the chart.<br> Please enter a new ticker symbol.`);
 		//If the ticker symbol is valid, try to add it to the list
 		socket.emit('addStock', stock);
+		enableInput();
 	});
 
+
+	
 	/*******************************
 	BEGIN socket.io operations
 	*******************************/

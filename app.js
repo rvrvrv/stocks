@@ -36,6 +36,7 @@ function getStockData(stock) {
 		//First, ensure data exists
 		if (!quotes.length) return false;
 		//Format quotes and add to stockData object
+		stockData[stock] = [];
 		for (let i = 0; i < quotes.length; i++) {
 			stockData[stock].push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
 		}
@@ -55,7 +56,6 @@ io.on('connection', socket => {
 	});
 
 	//Delete stock
-	socket.emit('newClientConnect', { stockData });
 	socket.on('deleteStock', stock => {
 		//Delete stock and its data from master list
 		delete stockData[stock];
@@ -67,7 +67,9 @@ io.on('connection', socket => {
 	//Add stock
 	socket.on('addStock', stock => {
 		//Add stock and its data from master list
-		//delete stockData[stock];
+		if (!getStockData(stock)) console.log('oops!');
+		console.log(Object.keys(stockData));
+		console.log(stockData[stock]);
 		//Update all users with added stock
 		io.sockets.emit('added', stock);
 	});
