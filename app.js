@@ -19,14 +19,18 @@ app.get('/', (req, res) => {
 });
 
 //Upon server startup, load a sample set of stocks
-let stockData = {	AAPL: [], GOOG: [], MSFT: [] };
+let stockData = {
+	AAPL: [],
+	GOOG: [],
+	MSFT: []
+};
 
 for (let stock in stockData) {
 	getStockData(stock);
 }
 
-//Retrieve stock data -- 
-function getStockData(stock) {
+//Retrieve stock data
+function getStockData(stock, user) {
 	yahooFinance.historical({
 		symbol: stock,
 		from: '2000-01-01',
@@ -34,12 +38,21 @@ function getStockData(stock) {
 		period: 'd'
 	}).then(quotes => {
 		//First, ensure data exists
-		if (!quotes.length) return false;
-		//Format quotes and add to stockData object
+		if (!quotes.length && user) {
+			//If no data, alert the user
+			return io.to(user).emit('added', { });
+		}
+		//If data exists, format quotes and add to stockData object
 		stockData[stock] = [];
 		for (let i = 0; i < quotes.length; i++) {
 			stockData[stock].push([moment(quotes[i].date).utc().valueOf(), quotes[i].close]);
 		}
+		//If user added the stock, send update via sockets.io
+		if (user) {
+			let addedStockData = {};
+			addedStockData[stock] = stockData[stock];
+			io.sockets.emit('added', { addedStockData });
+		} 
 	});
 }
 
@@ -51,27 +64,20 @@ BEGIN socket.io operations
 io.on('connection', socket => {
 
 	//Send full stock list and data to new user
-	socket.emit('newClientConnect', {
-		stockData
-	});
+	socket.emit('newClientConnect', { stockData });
 
 	//Delete stock
 	socket.on('deleteStock', stock => {
 		//Delete stock and its data from master list
 		delete stockData[stock];
-		//Update all other users with deleted stock
+		//Update all users with deleted stock
 		io.sockets.emit('deleted', stock);
 		console.log(Object.keys(stockData));
 	});
 
 	//Add stock
 	socket.on('addStock', stock => {
-		//Add stock and its data from master list
-		if (!getStockData(stock)) console.log('oops!');
-		console.log(Object.keys(stockData));
-		console.log(stockData[stock]);
-		//Update all users with added stock
-		io.sockets.emit('added', stock);
+		getStockData(stock, socket.id);
 	});
 });
 

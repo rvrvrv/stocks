@@ -51,16 +51,28 @@ $(document).ready(() => {
 		//Remove stock card, its modal, and chart data
 		$(`#${stock}`).remove();
 		$(`#del${stock}`).remove();
-		//chart.get(stock).remove();
+		chart.get(stock).remove();
 	}
 
 	//Add stock to the list and chart
-	function addStock(stock) {
-		//First, ensure stock doesn't already exist on page
+	function addStock(stockObj) {
+		//First, ensure stock data is valid
+		if (!stockObj) return enableInput('No stock data found.');
+		
+		//Then, ensure stock isn't already on page
+		let stock = Object.keys(stockObj)[0];
 		if ($(`#${stock}`).length > 0) return;
-		//Add stock card, its modal, and chart data
+		
+		//Add stock card and modal
 		generateHTML(stock);
-		//Add to chart
+		
+		//Add stock data to chart
+		chart.addSeries({
+			name: stock,
+			id: stock,
+			data: stockObj[stock]
+		});
+		enableInput();
 	}
 
 	//Enable the input field and optionally, display an error message
@@ -90,12 +102,12 @@ $(document).ready(() => {
 		//Ensure stock isn't already on page
 		if ($(`#${stock}`).length > 0)
 			return enableInput(`${stock} is already on the chart.<br> Please enter a new ticker symbol.`);
-		//If the ticker symbol is valid, try to add it to the list
+		//If the ticker symbol is valid, try to add it on the server
 		socket.emit('addStock', stock);
-		enableInput();
 	});
 
 
+	
 	
 	/*******************************
 	BEGIN socket.io operations
@@ -107,8 +119,8 @@ $(document).ready(() => {
 	});
 
 	//Handle when a user adds a stock
-	socket.on('added', stock => {
-		addStock(stock);
+	socket.on('added', data => {
+		addStock(data.addedStockData);
 	});
 
 	//On initial connection, load and format stock data from server
@@ -141,42 +153,44 @@ var seriesOptions = [],
 	chartConfig = {
 
 		//Begin theme
-		colors: ["#F92672", "#66D9EF", "#A6E22E", "#A6E22E"],
+		colors: ['#55b209', '#003aff', '#ff5319', '#ffc200',
+					'#b21409', '#a712b2', '#09b28d', '#6818cc',
+					'#b29900', '#49f6ff', '#009cff', '#cc2323'],
 		chart: {
-			backgroundColor: "#212121",
+			backgroundColor: '#212121',
 			style: {
-				color: "#A2A39C"
+				color: '#A2A39C'
 			}
 		},
 		subtitle: {
 			style: {
-				color: "#A2A39C"
+				color: '#A2A39C'
 			},
-			align: "left"
+			align: 'left'
 		},
 		legend: {
-			align: "right",
-			verticalAlign: "bottom",
+			align: 'right',
+			verticalAlign: 'bottom',
 			itemStyle: {
-				fontWeight: "normal",
-				color: "#A2A39C"
+				fontWeight: 'normal',
+				color: '#A2A39C'
 			}
 		},
 		xAxis: {
-			gridLineDashStyle: "Dot",
+			gridLineDashStyle: 'Dot',
 			gridLineWidth: 1,
-			gridLineColor: "#A2A39C",
-			lineColor: "#A2A39C",
-			minorGridLineColor: "#A2A39C",
-			tickColor: "#A2A39C",
+			gridLineColor: '#A2A39C',
+			lineColor: '#A2A39C',
+			minorGridLineColor: '#A2A39C',
+			tickColor: '#A2A39C',
 			tickWidth: 1
 		},
 		yAxis: {
-			gridLineDashStyle: "Dot",
-			gridLineColor: "#A2A39C",
-			lineColor: "#A2A39C",
-			minorGridLineColor: "#A2A39C",
-			tickColor: "#A2A39C",
+			gridLineDashStyle: 'Dot',
+			gridLineColor: '#A2A39C',
+			lineColor: '#A2A39C',
+			minorGridLineColor: '#A2A39C',
+			tickColor: '#A2A39C',
 			tickWidth: 1,
 			labels: {
 				formatter: function () {
