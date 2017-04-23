@@ -47,7 +47,7 @@ $(document).ready(() => {
 	//Remove stock from the list and chart
 	function removeStock(stock) {
 		//First, ensure stock exists on page
-		if ($(`#${stock}`).length === 0) return;
+		if ($(`#${stock}`).length < 1) return;
 		//Remove stock card, its modal, and chart data
 		$(`#${stock}`).remove();
 		$(`#del${stock}`).remove();
