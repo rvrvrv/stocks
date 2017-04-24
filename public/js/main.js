@@ -70,7 +70,7 @@ $(document).ready(() => {
 
 	//Enable the input field and optionally, display an error message
 	function enableInput(errorMsg) {
-		if (errorMsg) Materialize.toast(errorMsg, 3500, 'red darken-4');
+		if (errorMsg) Materialize.toast(errorMsg, 3500, 'red darken-2');
 		$('#addStock :input').prop('disabled', false);
 		$('.progress').addClass('hidden');
 		chart.hideLoading();
