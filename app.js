@@ -10,7 +10,6 @@ const io = require('socket.io')(http);
 const yahooFinance = require('yahoo-finance');
 const moment = require('moment');
 
-
 app.use(express.static(__dirname + '/public'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
@@ -55,7 +54,6 @@ function getStockData(stock, user) {
 		} 
 	});
 }
-
 
 /*******************************
 BEGIN socket.io operations
