@@ -1,5 +1,10 @@
+html {
+	height: 100%;
+}
 body {
-	background: #aaa;
+	background-color: #efe;
+	background: -webkit-linear-gradient(top, #ebffe8 0%,#398e33 30%,#ebffe8 55%,#87d86e 100%);
+	background: linear-gradient(to bottom, #ebffe8 0%,#398e33 30%,#ebffe8 55%,#87d86e 100%);
 	text-align: center;
 }
 
@@ -43,22 +48,6 @@ a {
 .input-field input[type=text]:focus {
 	border-bottom: 1px solid #000 !important;
 	box-shadow: 0 1px 0 0 #000 !important;
-}
-
-::-webkit-input-placeholder {
-	color: #030 !important;
-}
-
-::-moz-placeholder {
-	color: #030 !important;
-}
-
-:-moz-placeholder {
-	color: #030 !important;
-}
-
-::-ms-input-placeholder {
-	color: #030 !important;
 }
 
 .card-content {

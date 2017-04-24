@@ -24,11 +24,18 @@ let stockData = {
 	MSFT: []
 };
 
-for (let stock in stockData) {
-	getStockData(stock);
+updateAllStocks();
+//Also, update all stock data every 24 hours
+setTimeout(() => updateAllStocks, 86400000); 
+
+//Retrieve data for all stocks in collection
+function updateAllStocks() {
+	for (let stock in stockData) {
+		getStockData(stock);
+	}
 }
 
-//Retrieve stock data
+//Get stock data from Yahoo! Finance
 function getStockData(stock, user) {
 	yahooFinance.historical({
 		symbol: stock,
@@ -39,7 +46,7 @@ function getStockData(stock, user) {
 		//First, ensure data exists
 		if (!quotes.length && user) {
 			//If no data, alert the user
-			return io.to(user).emit('added', { });
+			return io.to(user).emit('added', {});
 		}
 		//If data exists, format quotes and add to stockData object
 		stockData[stock] = [];
@@ -50,8 +57,10 @@ function getStockData(stock, user) {
 		if (user) {
 			let addedStockData = {};
 			addedStockData[stock] = stockData[stock];
-			io.sockets.emit('added', { addedStockData });
-		} 
+			io.sockets.emit('added', {
+				addedStockData
+			});
+		}
 	});
 }
 
@@ -62,7 +71,9 @@ BEGIN socket.io operations
 io.on('connection', socket => {
 
 	//Send full stock list and data to new user
-	socket.emit('newClientConnect', { stockData });
+	socket.emit('newClientConnect', {
+		stockData
+	});
 
 	//Delete stock
 	socket.on('deleteStock', stock => {

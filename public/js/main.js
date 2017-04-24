@@ -145,7 +145,6 @@ $(document).ready(() => {
 //Chart config
 var seriesOptions = [],
 	chartConfig = {
-
 		colors: ['#55b209', '#003aff', '#ff5319', '#ffc200',
 					'#b21409', '#a712b2', '#09b28d', '#6818cc',
 					'#b29900', '#49f6ff', '#009cff', '#cc2323'],
@@ -155,7 +154,6 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-
 		legend: {
 			align: 'right',
 			verticalAlign: 'bottom',
@@ -164,32 +162,27 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-
 		plotLines: [{
 			value: 0,
 			width: 2,
 			color: 'silver'
             }],
-
 		plotOptions: {
 			series: {
 				compare: 'percent',
 				showInNavigator: true
 			}
 		},
-
 		rangeSelector: {
 			selected: 4
 		},
-
 		tooltip: {
-			backgroundColor: '(255,255,255, 0.9)',
+			backgroundColor: '#fff',
 			pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
 			valueDecimals: 2,
 			split: true,
 			xDateFormat: '%a, %B %e'
 		},
-
 		xAxis: {
 			gridLineDashStyle: 'Dot',
 			gridLineWidth: 1,
@@ -199,7 +192,6 @@ var seriesOptions = [],
 			tickColor: '#A2A39C',
 			tickWidth: 1
 		},
-
 		yAxis: {
 			gridLineDashStyle: 'Dot',
 			gridLineColor: '#A2A39C',
