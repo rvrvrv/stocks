@@ -2,19 +2,12 @@
 /* global $, console, Highcharts, io */
 
 $(document).ready(() => {
-
+	
+	//Global vars
 	var socket = io();
 	var stockData = {};
 	var chart;
-
-	/**
-	 * Create the chart when all data is loaded
-	 * @returns {undefined}
-	 */
-	function createChart() {
-		chart = Highcharts.stockChart('chart', chartConfig);
-	}
-
+	
 	//Generate materialize card and modal for stocks
 	function generateHTML(stock) {
 		//HTML for modal
@@ -79,9 +72,8 @@ $(document).ready(() => {
 	function enableInput(errorMsg) {
 		if (errorMsg) Materialize.toast(errorMsg, 3500, 'red darken-4');
 		$('#addStock :input').prop('disabled', false);
-		chart.hideLoading();
 		$('.progress').addClass('hidden');
-		
+		chart.hideLoading();
 	}
 
 	//Handle 'delete stock' confirmation
@@ -110,9 +102,6 @@ $(document).ready(() => {
 		//If the ticker symbol is valid, try to add it on the server
 		socket.emit('addStock', stock);
 	});
-
-
-
 
 	/*******************************
 	BEGIN socket.io operations
@@ -143,7 +132,7 @@ $(document).ready(() => {
 			i++;
 		}
 		//Draw the chart
-		createChart();
+		chart = Highcharts.stockChart('chart', chartConfig);
 		$('.progress').addClass('hidden');
 	});
 
@@ -152,7 +141,6 @@ $(document).ready(() => {
 	*******************************/
 
 });
-
 
 //Chart config
 var seriesOptions = [],
@@ -167,7 +155,7 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-		
+
 		legend: {
 			align: 'right',
 			verticalAlign: 'bottom',
@@ -176,7 +164,7 @@ var seriesOptions = [],
 				color: '#A2A39C'
 			}
 		},
-		
+
 		plotLines: [{
 			value: 0,
 			width: 2,
@@ -193,7 +181,7 @@ var seriesOptions = [],
 		rangeSelector: {
 			selected: 4
 		},
-		
+
 		tooltip: {
 			backgroundColor: '(255,255,255, 0.9)',
 			pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.change}%)<br/>',
@@ -225,6 +213,5 @@ var seriesOptions = [],
 				}
 			},
 		},
-
 		series: seriesOptions
 	};
