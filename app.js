@@ -25,6 +25,7 @@ let stockData = {
 };
 
 updateAllStocks();
+
 //Also, update all stock data every 24 hours
 setTimeout(() => updateAllStocks, 86400000); 
 
