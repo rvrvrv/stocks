@@ -1,7 +1,7 @@
 # stocks
 Stock Market App Project for FreeCodeCamp
 
-**Live App**: (app in development)
+**Live App**: https://rv-stocks.herokuapp.com
 
 ## User Stories:
 1. I can view a graph displaying the recent trend lines for each added stock.
