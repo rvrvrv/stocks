@@ -37,6 +37,7 @@ $(document).ready(() => {
 		}
 		//Draw the chart
 		chart = Highcharts.stockChart('chart', chartConfig);
+		$('#chart').addClass('fadeIn');
 		$('.progress').addClass('hidden');
 	});
 
@@ -64,7 +65,7 @@ function generateHTML(stock) {
 
 	//HTML for card
 	$('.stock-cards').append(`
-			<div class="col s6 m4" id="${stock}">
+			<div class="col s6 m4 animated" id="${stock}">
 				<div class="card grey darken-4 z-depth-3">
 					<div class="card-content white-text center">
 						<span class="card-title">${stock}</span>
@@ -81,9 +82,11 @@ function generateHTML(stock) {
 //Remove stock from the list and chart
 function removeStock(stock) {
 	//First, ensure stock exists on page
-	if ($(`#${stock}`).length < 1) return;
-	//Remove stock card, its modal, and chart data
-	$(`#${stock}`).remove();
+	if (!$(`#${stock}`).length) return;
+	//Fade out and remove stock card
+	$(`#${stock}`).addClass('fadeOut');
+	setTimeout(() => $(`#${stock}`).remove(), 1000);
+	//Remove delete-stock modal and data from chart
 	$(`#del${stock}`).remove();
 	chart.get(stock).remove();
 }

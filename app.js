@@ -83,8 +83,8 @@ io.on('connection', socket => {
 	socket.on('deleteStock', stock => {
 		//Delete stock and its data from master list
 		delete stockData[stock];
-		//Update all users with deleted stock
-		io.sockets.emit('deleted', stock);
+		//Update all other users with deleted stock
+		socket.broadcast.emit('deleted', stock);
 		console.log(Object.keys(stockData));
 	});
 
