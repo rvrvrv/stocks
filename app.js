@@ -40,10 +40,12 @@ function updateAllStocks() {
 function getStockData(stock, user) {
 	yahooFinance.historical({
 		symbol: stock,
-		from: '2000-01-01',
+		from: '2017-06-01',
 		to: moment().format('YYYY-MM-DD'), //Today's date
 		period: 'd'
 	}).then(quotes => {
+        //Reverse array for proper Highcharts display
+        quotes.reverse();
 		//First, ensure data exists
 		if (!quotes.length && user) {
 			//If no data, alert the user

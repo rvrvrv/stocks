@@ -1,5 +1,5 @@
 /*jshint browser: true, esversion: 6*/
-/* global $, console, Highcharts, io */
+/* global $, Highcharts, io */
 
 $(document).ready(() => {
 	
@@ -54,7 +54,7 @@ $(document).ready(() => {
 
 		//Then, ensure stock isn't already on page
 		let stock = Object.keys(stockObj)[0];
-		if ($(`#${stock}`).length > 0) return;
+		if ($(`#${stock}`).length) return;
 
 		//Add stock card and modal
 		generateHTML(stock);
