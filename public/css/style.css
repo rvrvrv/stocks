@@ -4,8 +4,8 @@ html {
 
 body {
 	background-color: #efe;
-	background: -webkit-linear-gradient(top, #ebffe8 0%, #398e33 30%, #ebffe8 55%, #87d86e 100%);
-	background: linear-gradient(to bottom, #ebffe8 0%, #398e33 30%, #ebffe8 55%, #87d86e 100%);
+	background: -webkit-linear-gradient(top, #efe, #7a7);
+	background: linear-gradient(to bottom, #efe, #7a7);
 }
 
 a {
@@ -38,7 +38,7 @@ a {
 	height: 50vh;
 	width: 97vw;
 	margin: 0 auto;
-	opacity: 0;
+	background: url('../img/loader.gif') no-repeat center;
 }
 
 #stockInput {

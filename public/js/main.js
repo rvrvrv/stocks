@@ -7,6 +7,7 @@ var stockData = {};
 var chart;
 
 $(document).ready(() => {
+	
 	/*******************************
 	BEGIN socket.io operations
 	*******************************/
@@ -39,11 +40,13 @@ $(document).ready(() => {
 		chart = Highcharts.stockChart('chart', chartConfig);
 		$('#chart').addClass('fadeIn');
 		$('.progress').addClass('hidden');
+		$('#chart').css('background-image', 'none');
 	});
 
 	/*******************************
 	END socket.io operations
 	*******************************/
+	
 });
 
 
