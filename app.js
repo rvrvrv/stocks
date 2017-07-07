@@ -1,5 +1,6 @@
 /*jshint esversion: 6*/
 /* global console, process, require, __dirname */
+'use strict';
 
 const express = require('express');
 const favicon = require('serve-favicon');
@@ -40,7 +41,7 @@ function updateAllStocks() {
 function getStockData(stock, user) {
 	yahooFinance.historical({
 		symbol: stock,
-		from: '2017-06-01',
+		from: '2000-06-01',
 		to: moment().format('YYYY-MM-DD'), //Today's date
 		period: 'd'
 	}).then(quotes => {
