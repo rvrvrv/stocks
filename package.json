@@ -4,6 +4,7 @@
   "description": "Stock Market Project for FreeCodeCamp",
   "main": "app.js",
   "scripts": {
+    "build": "babel main.js -o public/js/main.min.js",
     "start": "node app.js"
   },
   "author": "rvrvrv",
@@ -15,5 +16,10 @@
     "serve-favicon": "^2.4.3",
     "socket.io": "^1.7.4",
     "yahoo-finance": "^0.3.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-babili": "^0.1.4",
+    "babel-preset-env": "^1.6.0"
   }
 }
