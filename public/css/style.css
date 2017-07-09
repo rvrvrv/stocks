@@ -2,6 +2,10 @@ body {
 	background: #efe;
 }
 
+h4.center {
+	font-weight: bold;
+}
+
 a {
 	margin: 0 10px;
 }
