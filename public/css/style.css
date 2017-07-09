@@ -1,11 +1,5 @@
-html {
-	height: 100%;
-}
-
 body {
-	background-color: #efe;
-	background: -webkit-linear-gradient(top, #efe, #7a7);
-	background: linear-gradient(to bottom, #efe, #7a7);
+	background: #efe;
 }
 
 a {
