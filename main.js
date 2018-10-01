@@ -14,7 +14,7 @@ $(document).ready(() => {
     stockData = data.stockData;
     // Iterate through all stocks
     let i = 0;
-    for (const stock in stockData) {
+    Object.keys(stockData).forEach((stock) => {
       seriesOptions[i] = {
         name: stock,
         id: stock,
@@ -22,12 +22,12 @@ $(document).ready(() => {
       };
       generateHTML(stock);
       i++;
-    }
+    });
     // Draw the chart
     chart = Highcharts.stockChart('chart', chartConfig);
     $('#chart').addClass('fadeIn');
     $('.progress').addClass('hidden');
-    $('#chart').css('background-image', 'none');
+    $('chart').css('background-image', 'none');
   });
 });
 

@@ -27,9 +27,7 @@ setTimeout(() => updateAllStocks, 86400000);
 
 // Retrieve data for all stocks in collection
 function updateAllStocks() {
-  for (const stock in stockData) {
-    getStockData(stock);
-  }
+  Object.keys(stockData).forEach(stock => getStockData(stock));
 }
 
 // Get stock data from Yahoo! Finance
