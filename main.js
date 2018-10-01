@@ -53,7 +53,7 @@ function generateHTML(stock) {
       <div class="card grey darken-4 z-depth-3">
         <div class="card-content white-text center">
           <span class="card-title">${stock}</span>
-          <a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-tooltip="Learn about ${stock}" href="https://www.google.com/finance?q=${stock}" target="_blank"><i class="material-icons info-icon">info</i></a>
+          <a class="btn-floating waves-effect tooltipped indigo darken-3" data-position="bottom" data-tooltip="Learn about ${stock}" href="https://finance.yahoo.com/quote/${stock}" target="_blank"><i class="material-icons info-icon">info</i></a>
           <a class="btn-floating waves-effect modal-trigger tooltipped red darken-4" data-position="bottom" data-tooltip="Remove ${stock}" href="#del${stock}"><i class="material-icons del-icon">delete</i></a>
         </div>
       </div>
