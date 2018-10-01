@@ -25,6 +25,7 @@ $(document).ready(() => {
 	//On initial connection, load and format stock data from server
 	socket.on('newClientConnect', data => {
 		stockData = data.stockData;
+		console.log(data.stockData);
 		//Iterate through all stocks
 		let i = 0;
 		for (let stock in stockData) {
