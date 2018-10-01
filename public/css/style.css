@@ -32,21 +32,21 @@ a {
 	padding: 10px !important;
 }
 
-#chart {
+.chart-container {
 	height: 50vh;
 	width: 97vw;
 	margin: 0 auto;
 	background: url('../img/loader.gif') no-repeat center;
 }
 
-#stockInput {
-	font-size: 1.7em;
-	text-transform: uppercase;
-}
-
 .input-field label {
 	font-size: 1.7em;
 	color: #000 !important;
+}
+
+.input-field input {
+	font-size: 1.7em;
+	text-transform: uppercase;
 }
 
 .input-field input[type=text]:focus {
@@ -70,7 +70,6 @@ a {
 .del-icon {
 	font-size: 2.2em !important;
 }
-
 
 /* Animation */
 
